@@ -1,0 +1,241 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.14751162432227755 -0.46440034514727996 -0.8732540524480207 5.170236992130588
+  position -7.0622202931268765 -9.71971515722898 6.841353242811668
+  follow "rectangle arena"
+}
+TexturedBackground {
+  texture "dusk"
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 0 1 0 0
+  floorSize 20 20
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+}
+DEF bolinha Ball {
+  translation -4.4221339944827145 -1.3895018462316098 0.024919950398302932
+  rotation 0.005555672547789295 0.006310032132051568 -0.9999646583740018 2.0087246720913483
+  color 0.0313725 0 0.478431
+  radius 0.025
+  mass 0.051
+}
+DEF robot Robot {
+  children [
+    Transform {
+      translation 0 0 0.075
+      children [
+        DEF base Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.15 0.15 0.15
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1267.3892865805828
+        axis 0 0 1
+        anchor 0 0 3
+      }
+      device [
+        DEF z_body_rotational_motor RotationalMotor {
+          name "z_body_rotational_motor"
+        }
+        DEF z_body_position_sensor PositionSensor {
+          name "z_body_position_sensor"
+        }
+      ]
+      endPoint DEF z_body Solid {
+        translation 4.665828123632609e-05 -2.275010569903626e-05 0.299762587341347
+        rotation -3.1451757434824943e-06 2.488993352752781e-06 -0.9999999999919563 1.8173518571684113
+        children [
+          DEF StevesEmitter Emitter {
+            name "StevesEmitter"
+          }
+          DEF StevesReceiver Receiver {
+            name "StevesReceiver"
+          }
+          DEF z_body_shape Shape {
+            appearance PBRAppearance {
+            }
+            geometry Box {
+              size 0.1 0.1 0.3
+            }
+          }
+          Transform {
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position 1053.1043127155476
+              axis 0 1 0
+              anchor 0 0.09 0.09
+            }
+            device [
+              DEF y_shoulder_position_sensor PositionSensor {
+                name "y_shoulder_position_sensor"
+              }
+              DEF y_shoulder_rotational_motor RotationalMotor {
+                name "y_shoulder_rotational_motor"
+              }
+            ]
+            endPoint DEF y_shoulder Solid {
+              translation -0.0008957185639340092 0.10145000017660392 0.09032895465022545
+              rotation -0.0036735650590975274 -0.9999743882753446 0.006142288914325984 2.4774574845030237
+              children [
+                SliderJoint {
+                  jointParameters JointParameters {
+                    position 0.0003336179842094943
+                    axis 1 0 0
+                  }
+                  device [
+                    DEF shot_position_sensor PositionSensor {
+                      name "shot_position_sensor"
+                    }
+                    DEF shot LinearMotor {
+                      name "shot"
+                      acceleration 1
+                    }
+                  ]
+                }
+                DEF y_arm_b Solid {
+                  translation -0.12 0 -0.02
+                  children [
+                    Transform {
+                    }
+                    DEF y_arm_shape Shape {
+                      appearance PBRAppearance {
+                      }
+                      geometry Box {
+                        size 0.2 0.07 0.04
+                      }
+                    }
+                  ]
+                  name "solid(1)"
+                  boundingObject Box {
+                    size 0.2 0.05 0.04
+                  }
+                  physics Physics {
+                  }
+                }
+                DEF y_arm_l Solid {
+                  translation -0.12 -0.03 0.02
+                  children [
+                    DEF y_arm_shape Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.5 1 1
+                        transparency 0.05
+                      }
+                      geometry Box {
+                        size 0.2 0.01 0.04
+                      }
+                    }
+                  ]
+                  boundingObject Box {
+                    size 0.2 0.01 0.04
+                  }
+                  physics Physics {
+                  }
+                }
+                DEF y_arm_r Solid {
+                  translation -0.12 0.03 0.02
+                  children [
+                    DEF y_arm_shape Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.5 1 1
+                        transparency 0.05
+                      }
+                      geometry Box {
+                        size 0.2 0.01 0.04
+                      }
+                    }
+                  ]
+                  name "solid(2)"
+                  boundingObject Box {
+                    size 0.2 0.01 0.04
+                  }
+                  physics Physics {
+                  }
+                }
+                DEF y_shoulder_shape Shape {
+                  appearance PBRAppearance {
+                  }
+                  geometry Box {
+                    size 0.04 0.09 0.14
+                  }
+                }
+              ]
+              boundingObject USE y_shoulder_shape
+              physics Physics {
+                centerOfMass [
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        boundingObject DEF y_shoulder_shape Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.1 0.1 0.3
+          }
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  controller "arm"
+  supervisor TRUE
+}
+DEF winbot Robot {
+  translation -4.39568 -0.880007 0.297175
+  rotation 0 1 0 0
+  children [
+    DEF touch_ball_detector TouchSensor {
+      translation 0 0 0.04
+      name "touch_ball_detector"
+      boundingObject Box {
+        size 0.04 0.42 0.55
+      }
+    }
+    DEF windows Solid {
+      rotation 0.0008424382902742507 0.999971081152688 -0.007558250859263008 2.1453700414768383e-05
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.2 0.5 1
+            }
+          }
+          geometry Box {
+            size 0.03 0.4 0.6
+          }
+        }
+        Emitter {
+        }
+      ]
+      name "windows"
+      boundingObject Box {
+        size 0.03 0.4 0.6
+      }
+      physics Physics {
+      }
+    }
+  ]
+  name "winbot"
+  boundingObject Box {
+    size 0.03 0.4 0.6
+  }
+  physics Physics {
+  }
+  controller "emitter"
+}
